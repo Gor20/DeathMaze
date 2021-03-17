@@ -14,29 +14,17 @@ class DEATH_MAZE_API AItem_Bounce : public AItem
 {
 	GENERATED_BODY()
 
-		
-		
 public:
-	
+
 	AItem_Bounce();
-
-
 	UFUNCTION()
-		void OnBounceOverlap(UPrimitiveComponent* OverlappedComponent,
-			AActor* OtherActor,
-			UPrimitiveComponent* OtherComp,
-			int32 OtherBodyIndex,
-			bool bFromSweep,
-			const FHitResult &SweepResult);
+	void OnBounceOverlap(UPrimitiveComponent* OverlappedComponent,
+	                     AActor* OtherActor,
+	                     UPrimitiveComponent* OtherComp,
+	                     int32 OtherBodyIndex,
+	                     bool bFromSweep,
+	                     const FHitResult& SweepResult);
 
-	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		class ADeath_MAZECharacter * Character;
-
-
-
-	int what = 0;
-	
-
-
+	class ADeath_MAZECharacter* Character;
 };

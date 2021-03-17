@@ -10,12 +10,5 @@ AItem_Wall::AItem_Wall()
 	bReplicates = true;
 	SetReplicateMovement(true);
 
-	
 	Box_Trigger->SetCollisionObjectType(ECollisionChannel::ECC_Destructible);
-
-
-
-
-	
-	
 }

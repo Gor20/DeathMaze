@@ -13,8 +13,4 @@ UCLASS()
 class DEATH_MAZE_API AMyPlayerController_Lobby : public APlayerController
 {
 	GENERATED_BODY()
-	
-	
-	
-	
 };

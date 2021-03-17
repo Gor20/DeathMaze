@@ -13,8 +13,5 @@ UCLASS()
 class DEATH_MAZE_API UGameInfoInstance : public UGameInstance
 {
 	GENERATED_BODY()
-	
-	
-	
-	
+
 };

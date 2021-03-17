@@ -9,7 +9,6 @@
 #include "ItemStruct.generated.h"
 
 
-
 UENUM()
 enum ItemType
 {
@@ -19,9 +18,7 @@ enum ItemType
 	BatteryBIG,
 	BatterySmall,
 	Wall,
-
 };
-
 
 USTRUCT(BlueprintType)
 struct FItemStruct
@@ -30,30 +27,23 @@ struct FItemStruct
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemStruct")
-		FString Name;
+	FString Name;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemStruct")
-		bool Exists = true;
+	bool Exists = true;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemStruct")
-		UTexture2D * Icon;
+	UTexture2D* Icon;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemStruct")
-		TEnumAsByte<ItemType> Type;
+	TEnumAsByte<ItemType> Type;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemStruct")
-		int Count;
+	int Count;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemStruct")
-		int SlotID = -1;
+	int SlotID = -1;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemStruct")
-		TSubclassOf<AActor> Class;
-
-
-
-
+	TSubclassOf<AActor> Class;
 };
-
-
-

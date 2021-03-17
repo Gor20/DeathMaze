@@ -10,8 +10,8 @@ UCLASS()
 class DEATH_MAZE_API AItem_DamageLine : public AItem
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	AItem_DamageLine();
 
@@ -20,36 +20,28 @@ protected:
 	virtual void BeginPlay() override;
 
 	UFUNCTION()
-		void SetDamageAmount(int DamageAmountParam);
+	void SetDamageAmount(int DamageAmountParam);
 
 	UFUNCTION()
-		int getDamageAmount();
+	int getDamageAmount();
 
-
-
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION()
 	void OnDamageLineOverlap(UPrimitiveComponent* OverlappedComponent,
-		AActor* OtherActor,
-		UPrimitiveComponent* OtherComp,
-		int32 OtherBodyIndex,
-		bool bFromSweep,
-		const FHitResult &SweepResult);
+	                         AActor* OtherActor,
+	                         UPrimitiveComponent* OtherComp,
+	                         int32 OtherBodyIndex,
+	                         bool bFromSweep,
+	                         const FHitResult& SweepResult);
 
-	
 	UPROPERTY(EditAnywhere)
-		int DamageAmount;
-	
+	int DamageAmount;
 
 private:
-	
 
 	UPROPERTY(EditAnywhere)
-		class ADeath_MAZECharacter * Character;
-
-
-	
+	class ADeath_MAZECharacter* Character;
 };

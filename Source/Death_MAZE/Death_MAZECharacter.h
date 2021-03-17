@@ -8,7 +8,6 @@
 #include "Death_MAZECharacter.generated.h"
 
 
-
 UCLASS(config=Game)
 class ADeath_MAZECharacter : public ACharacter
 {
@@ -72,87 +71,74 @@ public:
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
-    // Returns Inventory component
+	// Returns Inventory component
 	UFUNCTION(BlueprintPure, Category = "Inventory")
-	class UInventory_Component * GetInventoryComponent();
+	class UInventory_Component* GetInventoryComponent();
 
 	// Returns Inventory component
 	UFUNCTION(BlueprintPure, Category = "CharacterParametrs")
-		class UCharacterParametrs * GetCharacterParametersComponent();
+	class UCharacterParametrs* GetCharacterParametersComponent();
 
 	// Inventory Component
 	UPROPERTY(EditDefaultsOnly, Category = "Inventory")
-		class UInventory_Component * InventoryComponent;
-
+	class UInventory_Component* InventoryComponent;
 
 	UFUNCTION(Client, Reliable)
-		void Client_Jump();
+	void Client_Jump();
 
 	UFUNCTION(Reliable, Server, WithValidation)
-		void SetWallOnTheFloor();
+	void SetWallOnTheFloor();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		class UCharacterParametrs * CharacterParametersComponent;
+	class UCharacterParametrs* CharacterParametersComponent;
 
 	UFUNCTION()
-		bool GetAccelerationAllow();
+	bool GetAccelerationAllow();
 
 	UFUNCTION()
-		void SetAccelerationAllow(bool NewState);
+	void SetAccelerationAllow(bool NewState);
 
 	UFUNCTION(Reliable, Client)
-		void Client_SetMaxWalkSpeed(float MaxWalkSpeedParam);
+	void Client_SetMaxWalkSpeed(float MaxWalkSpeedParam);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "StaticMeshForItem")
-		int MaxWalkSpeed;
+	int MaxWalkSpeed;
 
-	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Acceleration")
-		bool AccelerationAllow;
-
+	bool AccelerationAllow;
 
 	UFUNCTION(BlueprintImplementableEvent)
-		void OffAim();
+	void OffAim();
 
 	UPROPERTY(BlueprintReadWrite)
-		bool isAccelerating = false;
-
+	bool isAccelerating = false;
 
 private:
 
-	
 	// collection sphere for collecting items
-    UPROPERTY(EditDefaultsOnly, Category = "Inventory")
-	class USphereComponent * CollectionSphere;
-
+	UPROPERTY(EditDefaultsOnly, Category = "Inventory")
+	class USphereComponent* CollectionSphere;
 
 
 	// call on server side when player pick up item
 	UFUNCTION(Reliable, Server, WithValidation)
-		void ServerPickUp_Item();
+	void ServerPickUp_Item();
 
 	// call on client side when player pick up item
 	UFUNCTION()
-		void PickUp_Item();
+	void PickUp_Item();
 
 
 	UFUNCTION()
-		void Acceleration();
+	void Acceleration();
 
 	UFUNCTION(Reliable, Server, WithValidation)
-		void Server_Acceleration();
+	void Server_Acceleration();
 
 
 	UFUNCTION()
-		void AccelerationButton_Released();
+	void AccelerationButton_Released();
 
 	UFUNCTION(BlueprintCallable, Reliable, Server, WithValidation)
-		void Server_AccelerationButton_Released();
-
-	
-	
-	
-
-
+	void Server_AccelerationButton_Released();
 };
-

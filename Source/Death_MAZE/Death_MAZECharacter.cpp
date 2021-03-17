@@ -16,13 +16,6 @@
 #include "Components/StaticMeshComponent.h"
 
 
-
-
-
-
-//////////////////////////////////////////////////////////////////////////
-// ADeath_MAZECharacter
-
 ADeath_MAZECharacter::ADeath_MAZECharacter()
 {
 	// Set size for collision capsule
@@ -31,8 +24,6 @@ ADeath_MAZECharacter::ADeath_MAZECharacter()
 	// set our turn rates for input
 	BaseTurnRate = 45.f;
 	BaseLookUpRate = 45.f;
-
-	
 
 	// Don't rotate when the controller rotates. Let that just affect the camera.
 	bUseControllerRotationPitch = false;
@@ -54,12 +45,12 @@ ADeath_MAZECharacter::ADeath_MAZECharacter()
 
 	// Create a follow camera
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
-	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
+	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
+	// Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
 	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
-
 
 	// Create a Inventory Component
 	InventoryComponent = CreateDefaultSubobject<UInventory_Component>(TEXT("InventoryComponent"));
@@ -72,15 +63,13 @@ ADeath_MAZECharacter::ADeath_MAZECharacter()
 	CollectionSphere->SetCollisionObjectType(ECollisionChannel::ECC_Pawn);
 	CollectionSphere->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	CollectionSphere->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
-	CollectionSphere->SetCollisionResponseToChannel(ECollisionChannel::ECC_PhysicsBody, ECollisionResponse::ECR_Overlap);
-	CollectionSphere->SetCollisionResponseToChannel(ECollisionChannel::ECC_Destructible, ECollisionResponse::ECR_Overlap);
+	CollectionSphere->
+		SetCollisionResponseToChannel(ECollisionChannel::ECC_PhysicsBody, ECollisionResponse::ECR_Overlap);
+	CollectionSphere->SetCollisionResponseToChannel(ECollisionChannel::ECC_Destructible,
+	                                                ECollisionResponse::ECR_Overlap);
 	CollectionSphere->SetSphereRadius(150);
-	
-	
-	SetAccelerationAllow(true);
-	
 
-	
+	SetAccelerationAllow(true);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -115,20 +104,17 @@ void ADeath_MAZECharacter::SetupPlayerInputComponent(class UInputComponent* Play
 	PlayerInputComponent->BindAction("E PickUp Item", IE_Pressed, this, &ADeath_MAZECharacter::PickUp_Item);
 
 	PlayerInputComponent->BindAction("Acceleration", IE_Pressed, this, &ADeath_MAZECharacter::Acceleration);
-	PlayerInputComponent->BindAction("Acceleration", IE_Released, this, &ADeath_MAZECharacter::AccelerationButton_Released);
+	PlayerInputComponent->BindAction("Acceleration", IE_Released, this,
+	                                 &ADeath_MAZECharacter::AccelerationButton_Released);
 	PlayerInputComponent->BindAction("SetWallonTheFloor", IE_Pressed, this, &ADeath_MAZECharacter::SetWallOnTheFloor);
-
-
-
 }
 
-UInventory_Component * ADeath_MAZECharacter::GetInventoryComponent()
+UInventory_Component* ADeath_MAZECharacter::GetInventoryComponent()
 {
-
 	return InventoryComponent;
 }
 
-UCharacterParametrs * ADeath_MAZECharacter::GetCharacterParametersComponent()
+UCharacterParametrs* ADeath_MAZECharacter::GetCharacterParametersComponent()
 {
 	return CharacterParametersComponent;
 }
@@ -142,12 +128,8 @@ void ADeath_MAZECharacter::SetWallOnTheFloor_Implementation()
 {
 	if (GetInventoryComponent()->SpawnOrMakeVisible)
 	{
-
 		GetInventoryComponent()->SpawnWallsEvent.Broadcast();
 	}
-	
-	
-	
 }
 
 bool ADeath_MAZECharacter::GetAccelerationAllow()
@@ -158,60 +140,36 @@ bool ADeath_MAZECharacter::GetAccelerationAllow()
 void ADeath_MAZECharacter::SetAccelerationAllow(bool NewState)
 {
 	this->AccelerationAllow = NewState;
-
-	
 }
-
-
 
 // call on client side when player pick up item
 void ADeath_MAZECharacter::PickUp_Item()
 {
-	
 	ServerPickUp_Item();
-
 }
-
 
 void ADeath_MAZECharacter::Client_Jump_Implementation()
 {
-	
 	Jump();
 }
-
-
-
 
 bool ADeath_MAZECharacter::ServerPickUp_Item_Validate()
 {
 	return true;
 }
+
 // call on server side when player pick up item 
 void ADeath_MAZECharacter::ServerPickUp_Item_Implementation()
 {
-
-	
-
 	if (HasAuthority())
 	{
-		
-	  TArray<AActor*> CollectedItems;
-	// get all overlapping actors
-	  CollectionSphere->GetOverlappingActors(CollectedItems);
-	  UE_LOG(LogTemp, Warning, TEXT("Take it : %i"), CollectedItems.Num());
-	  InventoryComponent->AddItemToInventory(CollectedItems);
-
+		TArray<AActor*> CollectedItems;
+		// get all overlapping actors
+		CollectionSphere->GetOverlappingActors(CollectedItems);
+		UE_LOG(LogTemp, Warning, TEXT("Take it : %i"), CollectedItems.Num());
+		InventoryComponent->AddItemToInventory(CollectedItems);
 	}
-
-
-
-
 }
-
-
-
-
-
 
 void ADeath_MAZECharacter::OnResetVR()
 {
@@ -220,14 +178,12 @@ void ADeath_MAZECharacter::OnResetVR()
 
 void ADeath_MAZECharacter::TouchStarted(ETouchIndex::Type FingerIndex, FVector Location)
 {
-		Jump();
-		
+	Jump();
 }
 
 void ADeath_MAZECharacter::TouchStopped(ETouchIndex::Type FingerIndex, FVector Location)
 {
-		StopJumping();
-
+	StopJumping();
 }
 
 void ADeath_MAZECharacter::TurnAtRate(float Rate)
@@ -258,27 +214,22 @@ void ADeath_MAZECharacter::MoveForward(float Value)
 
 void ADeath_MAZECharacter::MoveRight(float Value)
 {
-	if ( (Controller != NULL) && (Value != 0.0f) )
+	if ((Controller != NULL) && (Value != 0.0f))
 	{
 		// find out which way is right
 		const FRotator Rotation = Controller->GetControlRotation();
 		const FRotator YawRotation(0, Rotation.Yaw, 0);
-	
+
 		// get right vector 
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 		// add movement in that direction
 		AddMovementInput(Direction, Value);
-
-		
 	}
 }
 
-
 void ADeath_MAZECharacter::Acceleration()
 {
-
 	Server_Acceleration();
-	
 }
 
 bool ADeath_MAZECharacter::Server_Acceleration_Validate()
@@ -301,7 +252,6 @@ void ADeath_MAZECharacter::Server_Acceleration_Implementation()
 			GetCharacterParametersComponent()->ChangeStaminaAmount = -10.f;
 			GetCharacterParametersComponent()->DecreaseStamina();
 		}
-
 	}
 }
 
@@ -309,8 +259,6 @@ void ADeath_MAZECharacter::AccelerationButton_Released()
 {
 	Server_AccelerationButton_Released();
 }
-
-
 
 bool ADeath_MAZECharacter::Server_AccelerationButton_Released_Validate()
 {
@@ -333,10 +281,6 @@ void ADeath_MAZECharacter::Server_AccelerationButton_Released_Implementation()
 
 void ADeath_MAZECharacter::Client_SetMaxWalkSpeed_Implementation(float MaxWalkSpeedParam)
 {
-
-	ADeath_MAZECharacter * Character = Cast<ADeath_MAZECharacter>(GetOwner());
+	ADeath_MAZECharacter* Character = Cast<ADeath_MAZECharacter>(GetOwner());
 	GetCharacterMovement()->MaxWalkSpeed = MaxWalkSpeedParam;
-
 }
-
-

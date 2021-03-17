@@ -16,11 +16,8 @@ UInventory_Component::UInventory_Component()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-
-
 	PrimaryComponentTick.bCanEverTick = false;
 }
-
 
 // Called when the game starts
 void UInventory_Component::BeginPlay()
@@ -28,7 +25,6 @@ void UInventory_Component::BeginPlay()
 	Super::BeginPlay();
 	SetIsReplicated(true);
 }
-
 
 // Called every frame
 void UInventory_Component::TickComponent(float DeltaTime, ELevelTick TickType,
@@ -39,17 +35,15 @@ void UInventory_Component::TickComponent(float DeltaTime, ELevelTick TickType,
 	FVector Newloc;
 	//Newloc.X = Character->GetActorLocation().X + 300.f;
 	//Newloc.Y = Character->GetActorLocation().Y;
-	//	Newloc.Z = Character->GetActorLocation().Z;
+	//Newloc.Z = Character->GetActorLocation().Z;
 
 	ItemWall->SetActorLocation(Character->GetActorLocation() + Character->GetActorForwardVector() + 300.f);
 	ItemWall->SetActorRotation(Character->GetActorRotation());
-
 
 	UE_LOG(LogTemp, Warning, TEXT("ActorTick :%f"), ItemWall->GetActorLocation().X);
 	UE_LOG(LogTemp, Warning, TEXT("ActorTick :%f"), ItemWall->GetActorLocation().Y);
 	UE_LOG(LogTemp, Warning, TEXT("ActorTick :%f"), ItemWall->GetActorLocation().Z);
 }
-
 
 void UInventory_Component::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
@@ -61,10 +55,8 @@ void UInventory_Component::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>&
 
 FItemStruct UInventory_Component::GetItem(int ByElemOfArray)
 {
-	
 	return Inventory[ByElemOfArray];
 }
-
 
 bool UInventory_Component::Server_UpdateInventory_Validate(const TArray<FItemStruct>& InventoryParam)
 {
@@ -78,7 +70,6 @@ void UInventory_Component::Server_UpdateInventory_Implementation(const TArray<FI
 		this->Inventory[i].SlotID = InventoryParam[i].SlotID;
 	}
 }
-
 
 bool UInventory_Component::Server_DropItem_Validate(const TArray<FItemStruct>& InventoryParam, int SlotIDParam)
 {
@@ -94,7 +85,6 @@ void UInventory_Component::Server_DropItem_Implementation(const TArray<FItemStru
 	if (!PawnInstigator) return;
 	UE_LOG(LogTemp, Warning, TEXT("item count ++ : %s"), *PawnInstigator->GetName());*/
 
-
 	int elemOfArrayToDrop = 0;
 
 	// find elem or array which has to be dropped
@@ -109,7 +99,6 @@ void UInventory_Component::Server_DropItem_Implementation(const TArray<FItemStru
 	}
 
 	// get params to spawn Item
-
 
 	Character = Cast<ADeath_MAZECharacter>(GetOwner());
 	FVector LocationToSpawn = FVector(Character->GetActorLocation() + Character->GetActorForwardVector() * 200);
@@ -135,7 +124,6 @@ void UInventory_Component::Server_DropItem_Implementation(const TArray<FItemStru
 bool UInventory_Component::Server_ApllyItem_Validate(const TArray<FItemStruct>& InventoryParam, int SlotIDParam,
                                                      int CountToApplyParam)
 {
-	
 	return true;
 }
 
@@ -144,7 +132,6 @@ void UInventory_Component::Server_ApllyItem_Implementation(const TArray<FItemStr
 {
 	//UpdateInventory(InventoryParam);
 	Server_UpdateInventory(InventoryParam);
-
 
 	// find elem or array which has to be dropped
 	for (int i = 0; i < this->Inventory.Num(); i++)
@@ -161,14 +148,12 @@ void UInventory_Component::Server_ApllyItem_Implementation(const TArray<FItemStr
 	// Subtraction required amount
 	SubtractionOfItems(CountToApplyParam);
 
-
 	if (InventoryParam[elemOfArrayToApply].Type.GetValue() == ItemType::Wall)
 	{
 		// make visible Wall for player
 		SpawnOrMakeVisible = false;
 		MakeVisibleWall();
 	}
-
 
 	if (this->Inventory[elemOfArrayToApply].Count == 0)
 	{
@@ -209,7 +194,6 @@ void UInventory_Component::MakeVisibleWall()
 {
 	VisibleWallsEvent.Broadcast();
 
-
 	UE_LOG(LogTemp, Warning, TEXT("Good"));
 }
 
@@ -247,9 +231,7 @@ void UInventory_Component::AddItemToInventory(TArray<AActor*> CollectedItems)
 			}
 		}
 
-
 		// check Inventory elem to not try to get nullpnt index
-
 		// if inventory was checked and new item type wasnt found we add it as new type item
 		if (AddNewItemTypeOrNot)
 		{
@@ -275,7 +257,6 @@ void UInventory_Component::AddItemToInventory(TArray<AActor*> CollectedItems)
 			{
 				Inventory.Add(Item->ItemStruct);
 			}
-
 
 			// define SlotID for picked up item
 			for (int SlotID = 0; SlotID < 32; SlotID++)
@@ -309,7 +290,6 @@ void UInventory_Component::AddItemToInventory(TArray<AActor*> CollectedItems)
 						break;
 					}
 				}
-
 				if (!SlotBusy) break;
 			}
 		}
@@ -320,7 +300,6 @@ void UInventory_Component::AddItemToInventory(TArray<AActor*> CollectedItems)
 		Client_ItemWasPickUp(PawnInstigator);
 	}
 }
-
 
 void UInventory_Component::Client_ItemWasPickUp_Implementation(APawn* Pawn)
 {

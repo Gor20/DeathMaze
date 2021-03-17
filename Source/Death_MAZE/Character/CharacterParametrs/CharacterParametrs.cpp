@@ -20,16 +20,13 @@ UCharacterParametrs::UCharacterParametrs()
 
 	DelayForDecreaseStamina_Timer = 1.f;
 	DelayForIncreaseStamina_Timer = 1.f;
-
 }
 
-
-void UCharacterParametrs::GetLifetimeReplicatedProps(TArray<FLifetimeProperty> & OutLifetimeProps) const
+void UCharacterParametrs::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(UCharacterParametrs, Health);
 	DOREPLIFETIME(UCharacterParametrs, Stamina);
-
 }
 
 // Called when the game starts
@@ -37,17 +34,13 @@ void UCharacterParametrs::BeginPlay()
 {
 	Super::BeginPlay();
 	SetIsReplicated(true);
-	// ...
-
 }
 
-
 // Called every frame
-void UCharacterParametrs::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void UCharacterParametrs::TickComponent(float DeltaTime, ELevelTick TickType,
+                                        FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
 }
 
 int UCharacterParametrs::GetHealth()
@@ -59,8 +52,6 @@ int UCharacterParametrs::GetStamina()
 {
 	return Stamina;
 }
-
-
 
 void UCharacterParametrs::SetHealth(int HealthParam)
 {
@@ -74,14 +65,14 @@ void UCharacterParametrs::SetStamina(int StaminaParam)
 
 void UCharacterParametrs::ChangeHealth(int AmountParam)
 {
-
 	this->Health -= AmountParam;
 }
 
 void UCharacterParametrs::DecreaseStamina()
 {
 	GetWorld()->GetTimerManager().ClearTimer(IncreaseStamina_Timer);
-	GetWorld()->GetTimerManager().SetTimer(DecreaseStamina_Timer, this, &UCharacterParametrs::DecreaseStamina_TimerFunc, DelayForDecreaseStamina_Timer, true);
+	GetWorld()->GetTimerManager().SetTimer(DecreaseStamina_Timer, this, &UCharacterParametrs::DecreaseStamina_TimerFunc,
+	                                       DelayForDecreaseStamina_Timer, true);
 }
 
 void UCharacterParametrs::DecreaseStamina_TimerFunc()
@@ -89,35 +80,26 @@ void UCharacterParametrs::DecreaseStamina_TimerFunc()
 	UE_LOG(LogTemp, Warning, TEXT("acceleration :%i"), GetStamina());
 	if (GetStamina() <= 0)
 	{
-		
-		ADeath_MAZECharacter * Character = Cast<ADeath_MAZECharacter>(GetOwner());
+		ADeath_MAZECharacter* Character = Cast<ADeath_MAZECharacter>(GetOwner());
 
 		GetWorld()->GetTimerManager().ClearTimer(DecreaseStamina_Timer);
 		Character->GetCharacterMovement()->MaxWalkSpeed = MaxWalkSpeed_Acceleration;
 		Character->Client_SetMaxWalkSpeed(MaxWalkSpeed_Acceleration);
 		Character->SetAccelerationAllow(false);
-		
 	}
 	else
 	{
-		
 		SetStamina(GetStamina() + ChangeStaminaAmount);
 	}
-	
-
 }
-
-
-
 
 void UCharacterParametrs::IncreaseStamina()
 {
 	GetWorld()->GetTimerManager().ClearTimer(DecreaseStamina_Timer);
-	GetWorld()->GetTimerManager().SetTimer(IncreaseStamina_Timer, this, &UCharacterParametrs::IncreaseStamina_TimerFunc, DelayForIncreaseStamina_Timer, true);
+	GetWorld()->GetTimerManager().SetTimer(IncreaseStamina_Timer, this, &UCharacterParametrs::IncreaseStamina_TimerFunc,
+	                                       DelayForIncreaseStamina_Timer, true);
 
-	ADeath_MAZECharacter * Character = Cast<ADeath_MAZECharacter>(GetOwner());
-
-
+	ADeath_MAZECharacter* Character = Cast<ADeath_MAZECharacter>(GetOwner());
 }
 
 void UCharacterParametrs::IncreaseStamina_TimerFunc()
@@ -131,24 +113,13 @@ void UCharacterParametrs::IncreaseStamina_TimerFunc()
 	{
 		SetStamina(GetStamina() + ChangeStaminaAmount);
 	}
-	
 }
-
-
-
-
 
 void UCharacterParametrs::Client_DecreaseHealthNotify_Implementation()
 {
-	ADeath_MAZECharacter * character = Cast<ADeath_MAZECharacter>(GetOwner());
-	
-		DecreaseHealthNotify.Broadcast();
-		
-		UE_LOG(LogTemp, Warning, TEXT("electric :%i"), character->GetCharacterParametersComponent()->GetHealth());
-		
-	
+	ADeath_MAZECharacter* character = Cast<ADeath_MAZECharacter>(GetOwner());
+
+	DecreaseHealthNotify.Broadcast();
+
+	UE_LOG(LogTemp, Warning, TEXT("electric :%i"), character->GetCharacterParametersComponent()->GetHealth());
 }
-		
-
-
-

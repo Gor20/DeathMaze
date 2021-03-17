@@ -8,97 +8,79 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnInterfaceDecreaseHealthEvent);
 
-int SomeeTe = 0;
-
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class DEATH_MAZE_API UCharacterParametrs : public UActorComponent
 {
 	GENERATED_BODY()
 
-public:	
+public:
 	// Sets default values for this component's properties
 	UCharacterParametrs();
 
-	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty> & OutLifetimeProperty) const override;
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProperty) const override;
 
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
+	                           FActorComponentTickFunction* ThisTickFunction) override;
 
 	UFUNCTION(BlueprintPure)
-		int GetHealth();
+	int GetHealth();
 
 	UFUNCTION(BlueprintCallable)
-		void SetHealth(int HealthParam);
+	void SetHealth(int HealthParam);
 
 	UFUNCTION(BlueprintPure)
-		int GetStamina();
-
-	
-
-
-	
+	int GetStamina();
 
 	UFUNCTION()
-		void SetStamina(int StaminaParam);
+	void SetStamina(int StaminaParam);
 
 	UFUNCTION()
-		void ChangeHealth(int AmountParam);
+	void ChangeHealth(int AmountParam);
 
 	UFUNCTION()
 	void DecreaseStamina();
 
 	UFUNCTION()
-		void IncreaseStamina();
+	void IncreaseStamina();
 
 	UFUNCTION()
-		void DecreaseStamina_TimerFunc();
+	void DecreaseStamina_TimerFunc();
 
 	UFUNCTION()
-		void IncreaseStamina_TimerFunc();
+	void IncreaseStamina_TimerFunc();
 
 	UFUNCTION(Client, Reliable, BlueprintCallable)
-		void Client_DecreaseHealthNotify();
+	void Client_DecreaseHealthNotify();
 
-	
-	
 	UPROPERTY(BlueprintAssignable, Category = "Interaction")
 	FOnInterfaceDecreaseHealthEvent DecreaseHealthNotify;
-	
-	
 
 	FTimerHandle DecreaseStamina_Timer;
 
 	FTimerHandle IncreaseStamina_Timer;
-	
+
 	int ChangeStaminaAmount;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterParameters")
-		float MaxWalkSpeed_Acceleration;
+	float MaxWalkSpeed_Acceleration;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterParameters")
-		float MaxWalkSpeed_Normal;
-
-	
+	float MaxWalkSpeed_Normal;
 
 private:
-		
-	UPROPERTY(Replicated)
-		int Health;
 
 	UPROPERTY(Replicated)
-		int Stamina;
+	int Health;
 
-	
-	
-	
+	UPROPERTY(Replicated)
+	int Stamina;
 
 	int DelayForDecreaseStamina_Timer;
-
 	int DelayForIncreaseStamina_Timer;
-	
 };

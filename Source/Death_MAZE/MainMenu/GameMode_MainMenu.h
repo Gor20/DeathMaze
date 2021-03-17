@@ -13,8 +13,4 @@ UCLASS()
 class DEATH_MAZE_API AGameMode_MainMenu : public AGameMode_Gameplay
 {
 	GENERATED_BODY()
-	
-	
-	
-	
 };

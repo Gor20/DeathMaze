@@ -8,7 +8,6 @@
 #include "Item.generated.h"
 
 
-
 UCLASS()
 class DEATH_MAZE_API AItem : public AActor
 {
@@ -27,19 +26,12 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	// Structure of Item
-     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemStruct")
-		FItemStruct ItemStruct;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemStruct")
+	FItemStruct ItemStruct;
 
-	 UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "StaticMesh")
-		class UStaticMeshComponent * ItemMeshComponent;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "StaticMesh")
+	class UStaticMeshComponent* ItemMeshComponent;
 
-	 UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Trigger")
-		class UBoxComponent * Box_Trigger;
-
-	
-	 
-
-
-
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Trigger")
+	class UBoxComponent* Box_Trigger;
 };

@@ -7,24 +7,15 @@
 #include "Item_Wall.generated.h"
 
 
-
-/**
- * 
- */
 UCLASS()
 class DEATH_MAZE_API AItem_Wall : public AItem
 {
 	GENERATED_BODY()
 
-		AItem_Wall();
-
+	AItem_Wall();
 
 public:
-	
-
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Material")
-	class UMaterial * MaterialForWall;
-
-	
+	class UMaterial* MaterialForWall;
 };

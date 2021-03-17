@@ -15,16 +15,5 @@ class DEATH_MAZE_API APlayerController_GamePlay : public APlayerController
 	GENERATED_BODY()
 public:
 	virtual void BeginPlay() override;
-	
-
-		APlayerController_GamePlay();
-public:
-	/*void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent);
-	
-
-	UFUNCTION(BlueprintImplementableEvent, Category = "Inventory")
-	void OpenInventoryPressed();
-
-	UFUNCTION(BlueprintImplementableEvent, Category = "Inventory")
-		void OpenInventoryReleased();*/
+	APlayerController_GamePlay();
 };
